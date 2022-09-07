@@ -1,13 +1,8 @@
 """
 BMKG Earthquake Info Package
 """
-
-print("this is a Python package of BMK Earthquake Info")
-
-"""
-Newest Earthquake Detection Aplication
-Modularisasi with function1
-"""
+import requests
+from bs4 import BeautifulSoup
 
 
 def data_extraction():
@@ -22,17 +17,34 @@ def data_extraction():
     Selengkapnya →
     """
 
-    hasil = dict()
-    hasil['date'] = '06 September 2022'
-    hasil['time'] = '09:31:23 WIB'
-    hasil['magnitudo'] = '4.2'
-    hasil['location'] = {'ls': 2.67, 'bt': 118.48}
-    hasil['central'] = 'Central of earthquake was in 45 KM Sea of west mamuju'
+    try:
+        content = requests.get('https://bmkg.go.id')
+    except Exception:
+        return none
 
-    return hasil
+    if content.status_code == 200:
+    #    print(content.text)
+#       soup = BeautifulSoup(content)
+#       print(soup.prettify())
+
+
+        hasil = dict()
+        hasil['date'] = '06 September 2022'
+        hasil['time'] = '09:31:23 WIB'
+        hasil['magnitudo'] = '4.2'
+        hasil['location'] = {'ls': 2.67, 'bt': 118.48}
+        hasil['central'] = 'Central of earthquake was in 45 KM Sea of west mamuju'
+
+        return hasil
+    else:
+        return none
 
 
 def data_show(result):
+    if result is None:
+        print("Can not find data from BMKG")
+        return
+
     print('\nThe last Earthquake from BMKG')
     print(f"Date : {result['date']}")
     print(f"Time : {result['time']}")
